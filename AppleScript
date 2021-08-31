@@ -1,0 +1,56 @@
+
+-- 
+
+---------------------∞ 鱫鰰macOS開機鰈鯯作 ∞----------------------------ON. 
+on run
+ try
+ tell application "Finder"
+ set InstallmacOS to ¬
+ (choose file with prompt {" 
+請鰛鰇鱮美鱺沝療癒鯀女鰰選擇欲鯯作開機鰈之macOS來源版本唷💋"} default location (path to (applications folder)))
+ set InstallmacOS_Name to InstallmacOS's name as string
+ set InstallmacOS_Name to text 1 thru ((offset of "." in InstallmacOS_Name) - 1) of InstallmacOS_Name
+ set InstallmacOS to POSIX path of InstallmacOS
+ set ErosDestUSB to ¬
+ quoted form of POSIX path of (choose folder with prompt {" 
+請鰛鰇鱮美鱺沝療癒鯀女鰰選擇欲鯯作開機鰈之目標USB唷💋"} default location (path to (startup disk)))
+ set CreateInstallMedia to quoted form of (InstallmacOS & "Contents/Resources/createinstallmedia")
+ set NewVersion to (CreateInstallMedia & " --volume ")
+ set InstallmacOS to quoted form of InstallmacOS
+ set OldVersion to (" --applicationpath " & InstallmacOS & " --nointeraction")
+ set inBackground to " &> /dev/null &"
+ set BackgroundProcessing to NewVersion & ErosDestUSB & OldVersion & inBackground
+ (do shell script BackgroundProcessing with administrator privileges)
+ delay 1
+ set isDone to false
+ set itemPath to ("createinstallmedia")
+ set itemProgress to "ps ax | grep -v grep | grep " & itemPath
+ repeat while isDone is false
+ try
+ do shell script itemProgress
+ if the result contains itemPath then
+ delay 1
+ else
+ set isDone to true
+ end if
+ on error
+ set isDone to true
+ end try
+ end repeat
+ if isDone is true then
+ display notification with title ("開機鰈鯯作鯇成鰳唷💋")
+ delay 1
+ set OpenInstallVolumes to quoted form of ("/Volumes/" & InstallmacOS_Name)
+ do shell script ("open " & OpenInstallVolumes)
+ delay 1
+ continue quit
+ end if
+ end tell
+ on error errmsg number errnbr
+ if errnbr = -128 then continue quit
+ continue quit
+ end try
+end run
+---------------------∞ 鱫鰰macOS開機鰈鯯作 ∞----------------------------END. 
+
+-- 
